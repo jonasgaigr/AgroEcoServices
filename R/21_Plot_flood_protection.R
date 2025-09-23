@@ -11,7 +11,7 @@ p_infil <- ggplot() +
     aes(x = sample_place, y = log1p(infiltration_adjusted)),
     side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
   ) +
-  boxplot(
+  geom_boxplot(
     data = data_raw,
     aes(x = sample_place, y = log1p(infiltration_adjusted)),
     side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
