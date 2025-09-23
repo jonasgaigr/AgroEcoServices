@@ -3,13 +3,36 @@
 # ----------------------
 pred_infil <- ggpredict(m_infil, terms = "sample_place")
 
-p_infil <- ggplot(pred_infil, aes(x, predicted)) +
-  geom_violin(fill = "skyblue") +
-  geom_errorbar(aes(ymin = conf.low, ymax = conf.high), width = 0.2) +
-  labs(x = "Habitat (sample_place)",
-       y = "log(1+Infiltration)",
-       title = "A) Infiltration ~ sample_place") +
+# raincloud plot
+p_infil <- ggplot() +
+  # half violin ("cloud")
+  geom_violinhalf(
+    data = data_raw,
+    aes(x = sample_place, y = log1p(infiltration_adjusted)),
+    side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
+  ) +
+  boxplot(
+    data = data_raw,
+    aes(x = sample_place, y = log1p(infiltration_adjusted)),
+    side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
+  ) +
+  # raw points ("rain")
+  geom_jitter(
+    data = data_raw,
+    aes(x = sample_place, y = log1p(infiltration_adjusted)),
+    width = 0.1, alpha = 0.5, size = 1, color = "grey40"
+  ) +
+  # predicted means + CI
+  labs(
+    x = "Habitat (sample_place)",
+    y = "log(1+Infiltration)",
+    title = "A) Infiltration ~ sample_place"
+  ) +
+  coord_flip() +
   theme_minimal()
+
+
+p_infil
 
 # ----------------------
 # B) Water field capacity

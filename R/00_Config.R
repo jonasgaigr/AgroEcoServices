@@ -14,6 +14,7 @@ packages <- c(
   "vegan",
   "lme4",
   "ggplot2",
+  "ggdist",
   "ggeffects",
   "patchwork"
   )
