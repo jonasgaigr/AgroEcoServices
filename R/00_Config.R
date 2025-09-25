@@ -16,6 +16,8 @@ packages <- c(
   "ggplot2",
   "ggdist",
   "ggeffects",
+  "ggrepel",
+  "ggpubr",
   "patchwork"
   )
 
@@ -34,6 +36,7 @@ data_raw <- readr::read_csv("Data/Input/data_raw.csv") %>%
   dplyr::mutate(
     site_id = as.factor(site_id),
     sample_place = as.factor(sample_place),
+    texture = as.factor(texture),
     depth_cm = as.factor(depth_cm),
     depth_cat = dplyr::case_when(
       depth_cm == "0-5" ~ 1,
