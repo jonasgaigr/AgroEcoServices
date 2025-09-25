@@ -16,6 +16,8 @@ m_wfc_null <- lmer(WFC_adjusted ~ 1 + (1 | site_id),
 anova(m_wfc, m_wfc_null)
 AIC(m_wfc, m_wfc_null)
 
+summary(m_wfc)
+
 # C) AWS
 m_aws <- glmer.nb(AWS ~ sample_place * depth_cm +
                     SOC + WFC_adjusted + (1 | site_id),
