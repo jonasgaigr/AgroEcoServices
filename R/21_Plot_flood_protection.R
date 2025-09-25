@@ -87,14 +87,7 @@ ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png",
 # ----------------------
 # C) AWS
 # ----------------------
-m_aws <- glmer.nb(AWS ~ sample_place * depth_cm +
-                    SOC + WFC_adjusted + (1 | site_id),
-                  data = data_raw)
-m_aws_null <- glmer.nb(AWS ~ 1 + (1 | site_id),
-                       data = data_raw)
 
-anova(m_aws, m_aws_null)
-AIC(m_aws, m_aws_null)
 
 pred_aws <- ggpredict(m_aws, terms = c("sample_place", "depth_cm"))
 
