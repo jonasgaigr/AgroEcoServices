@@ -27,14 +27,19 @@ centroids <- aggregate(cbind(PC1 = site_scores_df$PC1, PC2 = site_scores_df$PC2)
                        FUN = mean)
 
 # PCA plot with hulls and labels
-ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) +
+pca <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) +
   geom_point() +
   ggpubr::stat_chull(aes(group = sample_place), alpha = 0.2, geom = "polygon") +
   ggrepel::geom_text_repel(data = centroids,
                   aes(x = PC1, y = PC2, label = sample_place),
                   size = 5, fontface = "bold", color = "black") +
   theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5)) +
   ggtitle("PCA - Soil properties (scaling 2)")
+
+ggsave(pca, filename = "Outputs/Plots/pca.png",
+       height = 5, width = 6)
+
 
 # --- RDA (constrained ordination) ---
 # Explanatory variables: sample_place + depth_cm + texture
@@ -59,7 +64,7 @@ centroids <- aggregate(cbind(RDA1 = site_scores_df$RDA1, RDA2 = site_scores_df$R
                        FUN = mean)
 
 # RDA plot with hulls and centroid labels
-ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)) +
+rda <- ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)) +
   geom_point(size = 2) +
   stat_chull(aes(group = sample_place), alpha = 0.2, geom = "polygon") +
   geom_text_repel(data = centroids,
@@ -67,4 +72,8 @@ ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)) +
                   size = 5, fontface = "bold", color = "black") +
   theme_minimal() +
   ggtitle("RDA - Soil properties ~ environment") +
+  theme(plot.title = element_text(hjust = 0.5)) +
   labs(x = "RDA1", y = "RDA2")
+
+ggsave(rda, filename = "Outputs/Plots/rda.png",
+       height = 5, width = 6)
