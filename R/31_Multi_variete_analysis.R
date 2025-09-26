@@ -1,11 +1,12 @@
 # Response matrix: numeric soil properties
 soil_vars <- data_raw %>%
-  dplyr::select(infiltration_adjusted,
-                WFC_adjusted,
-                AWS,
-                SOC,
-                BS,
-                WFC_not_adjusted)
+  dplyr::select(
+    infiltration_adjusted,
+    WFC_adjusted,
+    AWS,
+    SOC,
+    BS
+    )
 
 # --- PCA (unconstrained ordination) ---
 pca <- rda(soil_vars, scale = TRUE)
@@ -14,7 +15,7 @@ pca <- rda(soil_vars, scale = TRUE)
 summary(pca)
 
 # Screeplot of eigenvalues
-screeplot(pca, bstick = TRUE, main = "PCA - Soil properties")
+screeplot(pca, bstick = TRUE, main = "PCA\nSoil variables")
 
 # PCA site scores
 site_scores <- scores(pca, display = "sites", scaling = 2)
@@ -35,7 +36,7 @@ pca <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) +
                   size = 5, fontface = "bold", color = "black") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  ggtitle("PCA - Soil properties (scaling 2)")
+  ggtitle("PCA\nSoil variables (scaling 2)")
 
 ggsave(pca, filename = "Outputs/Plots/pca.png",
        height = 5, width = 6)
@@ -43,7 +44,11 @@ ggsave(pca, filename = "Outputs/Plots/pca.png",
 
 # --- RDA (constrained ordination) ---
 # Explanatory variables: sample_place + depth_cm + texture
-rda_model <- rda(soil_vars ~ sample_place + depth_cm + texture, data = data_raw, scale = TRUE)
+rda_model <- rda(
+  soil_vars ~ sample_place + depth_cm + texture, 
+  data = data_raw, 
+  scale = TRUE
+  )
 
 # Model summary
 summary(rda_model)
@@ -71,7 +76,7 @@ rda <- ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)) +
                   aes(x = RDA1, y = RDA2, label = sample_place),
                   size = 5, fontface = "bold", color = "black") +
   theme_minimal() +
-  ggtitle("RDA - Soil properties ~ environment") +
+  ggtitle("RDA\nSoil variables ~ sample_place + depth_cm + texture") +
   theme(plot.title = element_text(hjust = 0.5)) +
   labs(x = "RDA1", y = "RDA2")
 
