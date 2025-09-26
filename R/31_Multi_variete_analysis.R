@@ -36,7 +36,7 @@ pca <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) +
                   size = 5, fontface = "bold", color = "black") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
-  ggtitle("PCA\nSoil variables (scaling 2)")
+  ggtitle("PCA (correlation biplot)\nSoil variables")
 
 ggsave(pca, filename = "Outputs/Plots/pca.png",
        height = 5, width = 6)
