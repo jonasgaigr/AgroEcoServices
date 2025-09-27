@@ -1,0 +1,7 @@
+We fitted a linear mixed model (estimated using REML and nloptwrap optimizer) to predict infiltration_adjusted with sample_place (formula: log1p(infiltration_adjusted) ~ sample_place). The model included site_id as random effect (formula: ~1 | site_id). The model's total explanatory power is substantial (conditional R2 = 0.52) and the part related to the fixed effects alone (marginal R2) is of 0.18. The model's intercept, corresponding to sample_place = Bed, is at 0.83 (95% CI [0.56, 1.10], t(90) = 6.09, p < .001). Within this model:
+
+  - The effect of sample place [Edible forest] is statistically significant and negative (beta = -0.23, 95% CI [-0.45, -0.01], t(90) = -2.11, p = 0.038; Std. beta = -0.11, 95% CI [-0.22, 6.35e-03])
+  - The effect of sample place [Field] is statistically significant and negative (beta = -0.63, 95% CI [-0.85, -0.42], t(90) = -5.81, p < .001; Std. beta = -0.28, 95% CI [-0.40, -0.17])
+  - The effect of sample place [Woodland] is statistically significant and negative (beta = -0.26, 95% CI [-0.48, -0.05], t(90) = -2.42, p = 0.018; Std. beta = -0.15, 95% CI [-0.26, -0.04])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
