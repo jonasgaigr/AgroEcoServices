@@ -54,8 +54,7 @@ cat(report_infil, file = "Outputs/Tables/Infiltration_report.txt")
 
 # 1. Fit models
 m_wfc <- lme4::lmer(
-  WFC_adjusted ~ sample_place * depth_cm + 
-    infiltration_adjusted + AWS + (1 | site_id),
+  WFC_adjusted ~ sample_place * depth_cm + (1 | site_id),
   data = data_raw
 )
 
@@ -93,7 +92,6 @@ report_wfc <- report::report(m_wfc)
 
 # Save the textual report
 cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
-
 
 # C) AWS
 m_aws <- glmer.nb(AWS ~ sample_place * depth_cm +
