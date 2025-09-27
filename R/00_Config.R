@@ -13,12 +13,14 @@ packages <- c(
   "ggtext",
   "vegan",
   "lme4",
+  "glmmTMB",
   "ggplot2",
   "ggdist",
   "ggeffects",
   "ggrepel",
   "ggpubr",
-  "patchwork"
+  "patchwork",
+  "sjPlot"
   )
 
 # Standard package
