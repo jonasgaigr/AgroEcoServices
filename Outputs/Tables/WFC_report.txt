@@ -1,0 +1,17 @@
+We fitted a linear mixed model (estimated using REML and nloptwrap optimizer) to predict WFC_adjusted with sample_place, depth_cm, infiltration_adjusted and AWS (formula: WFC_adjusted ~ sample_place * depth_cm + infiltration_adjusted + AWS). The model included site_id as random effect (formula: ~1 | site_id). The model's total explanatory power is substantial (conditional R2 = 0.64) and the part related to the fixed effects alone (marginal R2) is of 0.23. The model's intercept, corresponding to sample_place = Bed, depth_cm = 0-5, infiltration_adjusted = 0 and AWS = 0, is at 47.72 (95% CI [34.20, 61.23], t(80) = 7.03, p < .001). Within this model:
+
+  - The effect of sample place [Edible forest] is statistically non-significant and positive (beta = 2.36, 95% CI [-10.20, 14.93], t(80) = 0.37, p = 0.709; Std. beta = 0.12, 95% CI [-0.53, 0.77])
+  - The effect of sample place [Field] is statistically non-significant and positive (beta = 3.80, 95% CI [-9.15, 16.75], t(80) = 0.58, p = 0.561; Std. beta = 0.20, 95% CI [-0.47, 0.86])
+  - The effect of sample place [Woodland] is statistically significant and negative (beta = -19.65, 95% CI [-33.77, -5.54], t(80) = -2.77, p = 0.007; Std. beta = -1.01, 95% CI [-1.74, -0.29])
+  - The effect of depth cm [10-15] is statistically non-significant and negative (beta = -1.14, 95% CI [-13.61, 11.34], t(80) = -0.18, p = 0.856; Std. beta = -0.06, 95% CI [-0.70, 0.59])
+  - The effect of depth cm [25-30] is statistically non-significant and negative (beta = -5.65, 95% CI [-18.12, 6.82], t(80) = -0.90, p = 0.370; Std. beta = -0.29, 95% CI [-0.94, 0.35])
+  - The effect of infiltration adjusted is statistically non-significant and positive (beta = 1.22, 95% CI [-0.45, 2.89], t(80) = 1.45, p = 0.150; Std. beta = 0.12, 95% CI [-0.05, 0.29])
+  - The effect of AWS is statistically non-significant and positive (beta = 2.89e-03, 95% CI [-2.53e-03, 8.31e-03], t(80) = 1.06, p = 0.292; Std. beta = 0.09, 95% CI [-0.08, 0.27])
+  - The effect of sample place [Edible forest] × depth cm [10-15] is statistically non-significant and negative (beta = -11.35, 95% CI [-28.98, 6.29], t(80) = -1.28, p = 0.204; Std. beta = -0.59, 95% CI [-1.50, 0.32])
+  - The effect of sample place [Field] × depth cm [10-15] is statistically non-significant and negative (beta = -7.70, 95% CI [-25.34, 9.93], t(80) = -0.87, p = 0.387; Std. beta = -0.40, 95% CI [-1.31, 0.51])
+  - The effect of sample place [Woodland] × depth cm [10-15] is statistically non-significant and negative (beta = -5.03, 95% CI [-23.62, 13.56], t(80) = -0.54, p = 0.592; Std. beta = -0.26, 95% CI [-1.22, 0.70])
+  - The effect of sample place [Edible forest] × depth cm [25-30] is statistically non-significant and negative (beta = -7.64, 95% CI [-25.32, 10.04], t(80) = -0.86, p = 0.392; Std. beta = -0.39, 95% CI [-1.31, 0.52])
+  - The effect of sample place [Field] × depth cm [25-30] is statistically non-significant and negative (beta = -2.11, 95% CI [-19.75, 15.52], t(80) = -0.24, p = 0.812; Std. beta = -0.11, 95% CI [-1.02, 0.80])
+  - The effect of sample place [Woodland] × depth cm [25-30] is statistically non-significant and negative (beta = -0.07, 95% CI [-19.03, 18.90], t(80) = -7.00e-03, p = 0.994; Std. beta = -3.44e-03, 95% CI [-0.98, 0.98])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
