@@ -98,13 +98,13 @@ cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
 # ----------------------
 
 # Fit models
-m_aws <- lme4::glmer.nb(
-  AWS ~ sample_place * depth_cm + (1 | site_id),
+m_aws <- lme4::lmer(
+  log1p(AWS) ~ sample_place * depth_cm + (1 | site_id),
   data = data_raw
 )
 
-m_aws_null <- lme4::glmer.nb(
-  AWS ~ 1 + (1 | site_id),
+m_aws_null <- lme4::lmer(
+  log1p(AWS) ~ 1 + (1 | site_id),
   data = data_raw
 )
 
