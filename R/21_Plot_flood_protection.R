@@ -15,15 +15,15 @@ p_infil <- ggplot(
   # half violin ("cloud")
   see::geom_violinhalf(
     position = position_nudge(x = 0.2, y = 0), 
-    side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
+    side = "l", alpha = 0.6, trim = FALSE
   ) +
   geom_boxplot(
     width = 0.2, outlier.shape = NA, alpha = 0.8,
-    side = "l", fill = "skyblue", alpha = 0.6, trim = FALSE
+    side = "l",  alpha = 0.6, trim = FALSE
   ) +
   # raw points ("rain")
   geom_jitter(
-    width = 0.1, alpha = 0.5, size = 1, color = "grey40"
+    width = 0.1, alpha = 0.5, size = 1
   ) +
   scale_fill_manual(values = habitat_cols, guide = "none") +
   scale_colour_manual(values = habitat_cols, guide = "none") +
