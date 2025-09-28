@@ -331,18 +331,10 @@ data_bs$sample_place <- factor(
   data_bs$sample_place,
   levels = c("Field", "Bed", "Edible forest", "Woodland")
 )
-data_bs$depth_cm <- factor(
-  data_bs$depth_cm,
-  levels = c("25-30", "10-15", "0-5")
-)
 
 pred_bs$sample_place <- factor(
   pred_bs$sample_place,
   levels = c("Field", "Bed", "Edible forest", "Woodland")
-)
-pred_bs$depth_cm <- factor(
-  pred_bs$depth_cm,
-  levels = c("25-30", "10-15", "0-5")
 )
 
 ## 8) Plot (WFC style) ----
