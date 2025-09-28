@@ -52,3 +52,12 @@ glimpse(data_raw)
 
 # Check unique values for categorical candidates
 lapply(data_raw, function(x) if(is.character(x) | is.factor(x)) unique(x))
+
+
+# Custom palette for 4 habitats
+habitat_cols <- c(
+  "Woodland"      = "#006400",  # deep green
+  "Field"         = "#E66101",  # warm orange
+  "Edible forest" = "#4DAF4A",  # fresh green
+  "Bed"           = "#5AB4AC"   # teal
+)
