@@ -1,13 +1,38 @@
 # A) Infiltration ----
+data_infil <- dplyr::filter(
+  data_raw,
+  !is.na(infiltration_adjusted),
+  !is.na(sample_place),
+  !is.na(depth_cm)
+)
 
-pred_infil <- ggpredict(m_infil, terms = "sample_place") %>%
+pred_infil <- ggeffects::ggpredict(m_infil, terms = "sample_place") %>%
   dplyr::filter(group != "1")
+
+# ensure correct factor order
+data_infil$sample_place <- factor(
+  data_infil$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+data_infil$depth_cm <- factor(
+  data_infil$depth_cm,
+  levels = c("0-5", "10-15", "25-30")
+)
+
+pred_infil$sample_place <- factor(
+  pred_infil$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+pred_infil$depth_cm <- factor(
+  pred_infil$depth_cm,
+  levels = c("0-5", "10-15", "25-30")
+)
 
 # raincloud plot
 p_infil <- ggplot(
-  data = data_raw,
+  data = data_infil,
   aes(
-    x = reorder(sample_place, desc(log1p(infiltration_adjusted))), 
+    x = sample_place, 
     y = log1p(infiltration_adjusted),
     fill = sample_place,
     colour = sample_place),
@@ -72,6 +97,25 @@ pred_wfc <- as.data.frame(ggeffects::ggpredict(m_wfc, terms = c("sample_place", 
 # make them explicit and as factors matching the raw data
 pred_wfc$sample_place <- factor(pred_wfc$x, levels = levels(data_wfc$sample_place))
 pred_wfc$depth_cm     <- factor(pred_wfc$group, levels = levels(data_wfc$depth_cm))
+
+# ensure correct factor order
+data_wfc$sample_place <- factor(
+  data_wfc$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+data_wfc$depth_cm <- factor(
+  data_wfc$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
+
+pred_wfc$sample_place <- factor(
+  pred_wfc$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+pred_wfc$depth_cm <- factor(
+  pred_wfc$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
 
 # Build the plot with explicit namespaces
 p_wfc <- ggplot2::ggplot(data_wfc, ggplot2::aes(x = sample_place, y = WFC_adjusted)) +
@@ -197,6 +241,24 @@ print(pred_df)
 # print(colnames(X))
 # print(names(beta))
 
+# ensure correct order in both datasets
+data_aws$sample_place <- factor(
+  data_aws$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+data_aws$depth_cm <- factor(
+  data_aws$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
+
+pred_df$sample_place <- factor(
+  pred_df$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+pred_df$depth_cm <- factor(
+  pred_df$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
 
 # 8) Plot (boxplots + jitter + model predictions) on log1p scale --------------
 p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) +
@@ -263,6 +325,25 @@ pred_bs <- as.data.frame(ggeffects::ggpredict(m_bs, terms = c("sample_place")))
 # ggpredict returns columns 'x' (sample_place) and 'group' (depth_cm)
 # make them explicit and as factors matching the raw data
 pred_bs$sample_place <- factor(pred_bs$x, levels = levels(data_bs$sample_place))
+
+# ensure correct order in both datasets
+data_aws$sample_place <- factor(
+  data_aws$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+data_aws$depth_cm <- factor(
+  data_aws$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
+
+pred_df$sample_place <- factor(
+  pred_df$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+pred_df$depth_cm <- factor(
+  pred_df$depth_cm,
+  levels = c("25-30", "10-15", "0-5")
+)
 
 ## 8) Plot (WFC style) ----
 p_bs <- ggplot2::ggplot(
