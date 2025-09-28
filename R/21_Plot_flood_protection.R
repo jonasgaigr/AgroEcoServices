@@ -115,23 +115,6 @@ ggplot2::ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png", height = 5, width =
 # show
 p_wfc
 
-p_wfc <- ggplot(data = data_raw,
-                aes(x = sample_place,
-                    y = WFC_adjusted,
-                    colour = as.factor(depth_cm),
-                    group = as.factor(depth_cm))
-                ) +
-  geom_point(size = 1) +
-  labs(x = "Habitat (sample_place)",
-       y = "WFC_adjusted",
-       colour = "Depth",
-       fill = "Depth",
-       title = "B) Water field capacity") +
-  theme_minimal()
-
-ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png",
-       height = 5, width = 5)
-
 # ----------------------
 # C) AWS
 # ----------------------
@@ -140,9 +123,9 @@ ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png",
 pred_aws <- ggpredict(m_aws, terms = c("sample_place", "depth_cm"))
 
 p_aws <- ggplot(pred_aws, aes(x = x, y = predicted, colour = group)) +
-  geom_line(size = 1) +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group),
-              alpha = 0.2, colour = NA) +
+  geom_line(aes(group = group), size = 1, position = position_dodge(width = 0.4)) +
+  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group, group = group),
+              alpha = 0.2, colour = NA, position = position_dodge(width = 0.4)) +
   labs(x = "Habitat (sample_place)",
        y = "AWS (predicted)",
        colour = "Depth",
