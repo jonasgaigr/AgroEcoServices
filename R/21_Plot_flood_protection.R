@@ -116,22 +116,125 @@ ggplot2::ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png", height = 5, width =
 p_wfc
 
 # ----------------------
-# C) AWS
+# C) Available Water Storage (AWS)
 # ----------------------
+# Manual prediction on the model (log1p) scale + WFC-style plot for AWS
+# Run after m_aws is already fitted (your lmer model on log1p(AWS))
+
+# 1) prepare data (raw + transformed) ----------------------------------------
+data_aws <- dplyr::filter(data_raw, !is.na(AWS), !is.na(sample_place), !is.na(depth_cm))
+data_aws <- dplyr::mutate(data_aws, AWS_log = log1p(AWS))
+
+# ensure factor levels match model-fitting data
+data_aws$sample_place <- factor(data_aws$sample_place, levels = unique(as.character(data_aws$sample_place)))
+data_aws$depth_cm     <- factor(data_aws$depth_cm, levels = unique(as.character(data_aws$depth_cm)))
+
+# make sure contrasts for newdata equal contrasts used when fitting the model
+# (this preserves coding used in fixef/vcov)
+contrasts(data_aws$sample_place) <- contrasts(data_aws$sample_place)
+contrasts(data_aws$depth_cm)     <- contrasts(data_aws$depth_cm)
 
 
-pred_aws <- ggpredict(m_aws, terms = c("sample_place", "depth_cm"))
+# 2) create prediction grid ---------------------------------------------------
+newdata <- expand.grid(
+  sample_place = levels(data_aws$sample_place),
+  depth_cm     = levels(data_aws$depth_cm),
+  stringsAsFactors = FALSE
+)
+newdata$sample_place <- factor(newdata$sample_place, levels = levels(data_aws$sample_place))
+newdata$depth_cm     <- factor(newdata$depth_cm, levels = levels(data_aws$depth_cm))
 
-p_aws <- ggplot(pred_aws, aes(x = x, y = predicted, colour = group)) +
-  geom_line(aes(group = group), size = 1, position = position_dodge(width = 0.4)) +
-  geom_ribbon(aes(ymin = conf.low, ymax = conf.high, fill = group, group = group),
-              alpha = 0.2, colour = NA, position = position_dodge(width = 0.4)) +
-  labs(x = "Habitat (sample_place)",
-       y = "AWS (predicted)",
-       colour = "Depth",
-       fill = "Depth",
-       title = "C) Available water storage") +
-  theme_minimal()
+# apply same contrasts to the grid
+contrasts(newdata$sample_place) <- contrasts(data_aws$sample_place)
+contrasts(newdata$depth_cm)     <- contrasts(data_aws$depth_cm)
+
+
+# 3) build model matrix for fixed effects (matching formula: sample_place * depth_cm)
+#    (we explicitly build X for "~ sample_place * depth_cm")
+X <- stats::model.matrix(~ sample_place * depth_cm, data = newdata)
+
+# 4) extract fixed effects and their covariance
+beta  <- lme4::fixef(m_aws)        # fixed-effect coefficients (on log1p scale)
+Vbeta <- stats::vcov(m_aws)        # covariance matrix of fixed effects
+
+# Ensure column order in X matches names(beta); add zero columns if necessary
+missing_coefs <- setdiff(names(beta), colnames(X))
+if (length(missing_coefs) > 0) {
+  # add zero columns for any missing (should be rare)
+  X <- cbind(X, matrix(0, nrow = nrow(X), ncol = length(missing_coefs),
+                       dimnames = list(NULL, missing_coefs)))
+}
+# reorder columns of X to match beta order
+X <- X[, names(beta), drop = FALSE]
+
+# 5) predicted mean on model scale and standard errors (Wald)
+pred_lin <- as.numeric(X %*% beta)                      # predicted log1p(AWS)
+se_pred  <- sqrt( rowSums((X %*% Vbeta) * X) )          # se on log1p scale
+
+# 6) CI using t-approx (df = n - p)
+n   <- length(stats::resid(m_aws))
+p   <- length(beta)
+df  <- max(1, n - p)
+tq  <- stats::qt(0.975, df = df)
+pred_df <- data.frame(newdata,
+                      predicted = pred_lin,
+                      se = se_pred,
+                      conf.low = pred_lin - tq * se_pred,
+                      conf.high = pred_lin + tq * se_pred,
+                      stringsAsFactors = FALSE)
+
+# 7) quick sanity checks (optional)
+# print head and compare factor levels
+print(pred_df)
+# check match of names
+# print(colnames(X))
+# print(names(beta))
+
+
+# 8) Plot (boxplots + jitter + model predictions) on log1p scale --------------
+p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) +
+  # boxplots by depth (dodged)
+  ggplot2::geom_boxplot(
+    ggplot2::aes(fill = depth_cm, colour = depth_cm),
+    width = 0.15, outlier.shape = NA, alpha = 0.7,
+    position = ggplot2::position_dodge(width = 0.8)
+  ) +
+  # raw points (jittered & dodged)
+  ggplot2::geom_point(
+    ggplot2::aes(colour = depth_cm),
+    position = ggplot2::position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
+    size = 1, alpha = 0.5
+  ) +
+  # predicted means (on log1p scale) - inherit.aes = FALSE so we only use pred_df aesthetics
+  ggplot2::geom_point(
+    data = pred_df,
+    mapping = ggplot2::aes(x = sample_place, y = predicted, group = depth_cm, colour = depth_cm),
+    position = ggplot2::position_dodge(width = 0.8),
+    size = 3, shape = 18,
+    inherit.aes = FALSE
+  ) +
+  # predicted 95% CI bars (on log1p scale)
+  ggplot2::geom_errorbar(
+    data = pred_df,
+    mapping = ggplot2::aes(x = sample_place, ymin = conf.low, ymax = conf.high, group = depth_cm, colour = depth_cm),
+    position = ggplot2::position_dodge(width = 0.8),
+    width = 0.2,
+    inherit.aes = FALSE
+  ) +
+  # labels + legend and flip coordinates
+  ggplot2::labs(
+    x = "Habitat (sample_place)",
+    y = "log(1 + AWS)",
+    colour = "Depth (cm)",
+    fill = "Depth (cm)",
+    title = "C) Available water storage (AWS) - model predictions on log1p scale"
+  ) +
+  ggplot2::coord_flip() +
+  ggplot2::theme_minimal()
+
+# 9) save + show
+ggplot2::ggsave(p_aws, filename = "Outputs/Plots/p_aws_log1p.png", height = 5, width = 6)
+p_aws
 
 # ----------------------
 # Combine plots
