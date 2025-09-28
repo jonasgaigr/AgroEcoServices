@@ -5,8 +5,7 @@ soil_vars <- data_raw %>%
     WFC_adjusted,
     AWS,
     SOC,
-    BS,
-    WFC_not_adjusted
+    BS
     )
 
 # --- PCA (unconstrained ordination) ---
@@ -50,6 +49,8 @@ pca_plot <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) 
                   aes(x = PC1, y = PC2, label = rownames(arrow_scores)),
                   inherit.aes = FALSE,
                   color = "red", size = 4) +
+  ggplot2::scale_fill_manual(values = habitat_cols, name = "Habitat", guide = "none") +
+  ggplot2::scale_colour_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5)) +
   ggtitle("PCA (correlation biplot)\nSoil variables")
@@ -57,9 +58,9 @@ pca_plot <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) 
 ggsave(pca_plot, filename = "Outputs/Plots/pca.png", height = 5, width = 6)
 
 # --- RDA (constrained ordination) ---
-# Explanatory variables: sample_place + depth_cm + texture
+# Explanatory variables: sample_place
 rda_model <- rda(
-  soil_vars ~ sample_place + texture, 
+  soil_vars ~ sample_place, 
   data = data_raw, 
   scale = TRUE
   )
@@ -103,6 +104,8 @@ rda_plot <- ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)
   #                aes(x = RDA1, y = RDA2, label = varname),
   #                inherit.aes = FALSE,
   #                color = "red", size = 4) +
+  ggplot2::scale_fill_manual(values = habitat_cols, name = "Habitat", guide = "none") +
+  ggplot2::scale_colour_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   theme_minimal() +
   ggtitle("RDA\nSoil variables ~ sample_place + texture") +
   theme(plot.title = element_text(hjust = 0.5)) +
