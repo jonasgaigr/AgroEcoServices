@@ -61,3 +61,4 @@ habitat_cols <- c(
   "Edible forest" = "#4DAF4A",  # fresh green
   "Bed"           = "#5AB4AC"   # teal
 )
+
