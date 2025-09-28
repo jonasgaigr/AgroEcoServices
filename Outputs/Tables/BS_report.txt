@@ -1,0 +1,7 @@
+We fitted a linear mixed model (estimated using REML and nloptwrap optimizer) to predict BS with sample_place (formula: BS ~ sample_place). The model included site_id as random effect (formula: ~1 | site_id). The model's total explanatory power is substantial (conditional R2 = 0.73) and the part related to the fixed effects alone (marginal R2) is of 0.61. The model's intercept, corresponding to sample_place = Bed, is at 18.13 (95% CI [8.04, 28.21], t(90) = 3.57, p < .001). Within this model:
+
+  - The effect of sample place [Edible forest] is statistically significant and negative (beta = -12.38, 95% CI [-21.61, -3.14], t(90) = -2.66, p = 0.009; Std. beta = -0.40, 95% CI [-0.70, -0.10])
+  - The effect of sample place [Field] is statistically significant and positive (beta = 45.38, 95% CI [36.14, 54.61], t(90) = 9.76, p < .001; Std. beta = 1.48, 95% CI [1.18, 1.78])
+  - The effect of sample place [Woodland] is statistically significant and negative (beta = -13.75, 95% CI [-22.99, -4.51], t(90) = -2.96, p = 0.004; Std. beta = -0.45, 95% CI [-0.75, -0.15])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
