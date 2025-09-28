@@ -1,6 +1,5 @@
-# ----------------------
-# A) Infiltration
-# ----------------------
+# A) Infiltration ----
+
 pred_infil <- ggpredict(m_infil, terms = "sample_place") %>%
   dplyr::filter(group != "1")
 
@@ -48,9 +47,9 @@ p_infil_pred <- p_infil +
 ggsave(p_infil, filename = "Outputs/Plots/p_infil.png",
        height = 5, width = 5)
 
-# ----------------------
-# B) Water field capacity
-# ----------------------
+
+# B) Water field capacity ----
+
 # Prepare data and predictions, then build plot (explicit namespaces everywhere)
 data_wfc <- dplyr::filter(data_raw, !is.na(WFC_adjusted), !is.na(sample_place), !is.na(depth_cm))
 
@@ -115,9 +114,9 @@ ggplot2::ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png", height = 5, width =
 # show
 p_wfc
 
-# ----------------------
-# C) Available Water Storage (AWS)
-# ----------------------
+
+# C) Available Water Storage (AWS) -----
+
 # Manual prediction on the model (log1p) scale + WFC-style plot for AWS
 # Run after m_aws is already fitted (your lmer model on log1p(AWS))
 
@@ -235,6 +234,72 @@ p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) 
 # 9) save + show
 ggplot2::ggsave(p_aws, filename = "Outputs/Plots/p_aws.png", height = 5, width = 6)
 p_aws
+
+
+# E) Bare soil (BS) ----
+
+# Prepare data and predictions, then build plot (explicit namespaces everywhere)
+data_bs <- dplyr::filter(data_raw, !is.na(BS), !is.na(sample_place), !is.na(depth_cm))
+
+# ensure factors and consistent levels
+data_bs$sample_place <- factor(data_bs$sample_place,
+                                levels = unique(as.character(data_bs$sample_place)))
+data_bs$depth_cm <- factor(data_bs$depth_cm,
+                            levels = unique(as.character(data_bs$depth_cm)))
+
+# predictions from model (ggeffects)
+pred_bs <- as.data.frame(ggeffects::ggpredict(m_bs, terms = c("sample_place")))
+
+# ggpredict returns columns 'x' (sample_place) and 'group' (depth_cm)
+# make them explicit and as factors matching the raw data
+pred_bs$sample_place <- factor(pred_bs$x, levels = levels(data_bs$sample_place))
+
+## 8) Plot (WFC style) ----
+p_bs <- ggplot2::ggplot(
+  data_bs, 
+  ggplot2::aes(
+    x = sample_place, 
+    y = BS, 
+    fill = sample_place, 
+    colour = sample_place
+    )) +
+  ggplot2::geom_boxplot(
+    width = 0.15, outlier.shape = NA, alpha = 0.7,
+    position = ggplot2::position_dodge(width = 0.8)
+  ) +
+  ggplot2::geom_point(
+    position = ggplot2::position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
+    size = 1, alpha = 0.5
+  ) +
+  ggplot2::geom_point(
+    data = pred_bs,
+    mapping = ggplot2::aes(x = sample_place, y = predicted),
+    position = ggplot2::position_dodge(width = 0.8),
+    size = 3, shape = 18,
+    inherit.aes = FALSE
+  ) +
+  ggplot2::geom_errorbar(
+    data = pred_bs,
+    mapping = ggplot2::aes(x = sample_place, ymin = conf.low, ymax = conf.high),
+    position = ggplot2::position_dodge(width = 0.8),
+    width = 0.2,
+    alpha = 0.5,
+    inherit.aes = FALSE
+  ) + 
+  ggplot2::scale_fill_manual(values = habitat_cols, name = "Habitat", guide = "none") +
+  ggplot2::scale_colour_manual(values = habitat_cols, name = "Habitat", guide = "none") +
+  ggplot2::labs(
+    x = "Habitat (sample_place)",
+    y = "Bare Soil (BS)",
+    title = "D) Bare Soil (BS)"
+  ) +
+  ggplot2::coord_flip() +
+  ggplot2::theme_minimal()
+
+## 9) Save and display ----
+ggplot2::ggsave(p_bs, filename = "Outputs/Plots/p_bs.png", height = 5, width = 6)
+
+p_bs
 
 # ----------------------
 # Combine plots
