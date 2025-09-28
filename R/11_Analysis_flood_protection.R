@@ -134,3 +134,46 @@ sjPlot::tab_model(
 report_aws <- report::report(m_aws)
 cat(report_aws, file = "Outputs/Tables/AWS_report.txt")
 
+# ----------------------
+# D) Soil organic carbon (SOC) ----
+# ----------------------
+
+
+# ----------------------
+# E) Bare soil (BS) ----
+# ----------------------
+## 1) Fit models ---------------------------------------------------------------
+m_bs <- lme4::lmer(
+  BS ~ sample_place + (1 | site_id),
+  data = data_raw
+)
+
+m_bs_null <- lme4::lmer(
+  BS ~ 1 + (1 | site_id),
+  data = data_raw
+)
+
+## 2) Model comparison (LRT + AIC) ---------------------------------------------
+anova(m_bs, m_bs_null)
+AIC(m_bs, m_bs_null)
+
+## 3) Residual checks ----------------------------------------------------------
+plot(m_bs)
+qqnorm(resid(m_bs)); qqline(resid(m_bs))
+
+## 4) Summarise fixed effects --------------------------------------------------
+tab_bs <- broom.mixed::tidy(m_bs, effects = "fixed", conf.int = TRUE)
+
+# Regression table
+sjPlot::tab_model(
+  m_bs, m_bs_null,
+  show.icc = TRUE,
+  show.aic = TRUE,
+  show.ci = 0.95,
+  dv.labels = c("BS ~ Habitat × Depth", "Null model"),
+  file = "Outputs/Tables/BS_models.doc"
+)
+
+# Textual summary
+report_bs <- report::report(m_bs)
+cat(report_bs, file = "Outputs/Tables/BS_report.txt")
