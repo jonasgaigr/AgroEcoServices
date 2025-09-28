@@ -327,21 +327,21 @@ pred_bs <- as.data.frame(ggeffects::ggpredict(m_bs, terms = c("sample_place")))
 pred_bs$sample_place <- factor(pred_bs$x, levels = levels(data_bs$sample_place))
 
 # ensure correct order in both datasets
-data_aws$sample_place <- factor(
-  data_aws$sample_place,
+data_bs$sample_place <- factor(
+  data_bs$sample_place,
   levels = c("Field", "Bed", "Edible forest", "Woodland")
 )
-data_aws$depth_cm <- factor(
-  data_aws$depth_cm,
+data_bs$depth_cm <- factor(
+  data_bs$depth_cm,
   levels = c("25-30", "10-15", "0-5")
 )
 
-pred_df$sample_place <- factor(
-  pred_df$sample_place,
+pred_bs$sample_place <- factor(
+  pred_bs$sample_place,
   levels = c("Field", "Bed", "Edible forest", "Woodland")
 )
-pred_df$depth_cm <- factor(
-  pred_df$depth_cm,
+pred_bs$depth_cm <- factor(
+  pred_bs$depth_cm,
   levels = c("25-30", "10-15", "0-5")
 )
 
