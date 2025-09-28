@@ -227,13 +227,13 @@ p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) 
     y = "log(1 + AWS)",
     colour = "Depth (cm)",
     fill = "Depth (cm)",
-    title = "C) Available water storage (AWS) - model predictions on log1p scale"
+    title = "C) Available water storage (AWS)"
   ) +
   ggplot2::coord_flip() +
   ggplot2::theme_minimal()
 
 # 9) save + show
-ggplot2::ggsave(p_aws, filename = "Outputs/Plots/p_aws_log1p.png", height = 5, width = 6)
+ggplot2::ggsave(p_aws, filename = "Outputs/Plots/p_aws.png", height = 5, width = 6)
 p_aws
 
 # ----------------------
