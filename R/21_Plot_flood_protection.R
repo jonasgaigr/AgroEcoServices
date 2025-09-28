@@ -272,7 +272,26 @@ p_bs <- ggplot2::ggplot(
     y = BS, 
     fill = sample_place, 
     colour = sample_place
-    )) +
+    )
+  ) +
+  #ggplot2::geom_errorbar(
+  #  data = pred_bs,
+  #  mapping = ggplot2::aes(
+  #    x = sample_place, ymin = conf.low, ymax = conf.high
+  #  ),
+  #  position = ggplot2::position_dodge(width = 0.8),
+  #  width = 0.2,
+  #  alpha = 0.4,
+  #  inherit.aes = FALSE
+  #) + 
+  #ggplot2::geom_point(
+  #  data = pred_bs,
+  #  mapping = ggplot2::aes(x = sample_place, y = predicted),
+  #  position = ggplot2::position_dodge(width = 0.8),
+  #  size = 3, shape = 18,
+  #  alpha = 0.4,
+  #  inherit.aes = FALSE
+  #) +
   ggplot2::geom_boxplot(
     width = 0.15, outlier.shape = NA, alpha = 0.7,
     position = ggplot2::position_dodge(width = 0.8)
@@ -281,21 +300,6 @@ p_bs <- ggplot2::ggplot(
     position = ggplot2::position_jitterdodge(jitter.width = 0.15, dodge.width = 0.8),
     size = 1, alpha = 0.5
   ) +
-  ggplot2::geom_point(
-    data = pred_bs,
-    mapping = ggplot2::aes(x = sample_place, y = predicted),
-    position = ggplot2::position_dodge(width = 0.8),
-    size = 3, shape = 18,
-    inherit.aes = FALSE
-  ) +
-  ggplot2::geom_errorbar(
-    data = pred_bs,
-    mapping = ggplot2::aes(x = sample_place, ymin = conf.low, ymax = conf.high),
-    position = ggplot2::position_dodge(width = 0.8),
-    width = 0.2,
-    alpha = 0.5,
-    inherit.aes = FALSE
-  ) + 
   ggplot2::scale_fill_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   ggplot2::scale_colour_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   ggplot2::labs(
