@@ -6,7 +6,11 @@ pred_infil <- ggpredict(m_infil, terms = "sample_place") %>%
 # raincloud plot
 p_infil <- ggplot(
   data = data_raw,
-  aes(x = reorder(sample_place, desc(log1p(infiltration_adjusted))), y = log1p(infiltration_adjusted)),
+  aes(
+    x = reorder(sample_place, desc(log1p(infiltration_adjusted))), 
+    y = log1p(infiltration_adjusted),
+    fill = sample_place,
+    colour = sample_place),
   ) +
   # half violin ("cloud")
   see::geom_violinhalf(
@@ -21,6 +25,8 @@ p_infil <- ggplot(
   geom_jitter(
     width = 0.1, alpha = 0.5, size = 1, color = "grey40"
   ) +
+  scale_fill_manual(values = habitat_cols, guide = "none") +
+  scale_colour_manual(values = habitat_cols, guide = "none") +
   # predicted means + CI
   labs(
     x = "Habitat (sample_place)",
@@ -44,7 +50,7 @@ p_infil_pred <- p_infil +
     color = "red", width = 0.2
   )
 
-ggsave(p_infil, filename = "Outputs/Plots/p_infil.png",
+ggsave(p_infil_pred, filename = "Outputs/Plots/p_infil.png",
        height = 5, width = 5)
 
 
@@ -97,6 +103,8 @@ p_wfc <- ggplot2::ggplot(data_wfc, ggplot2::aes(x = sample_place, y = WFC_adjust
     width = 0.2,
     inherit.aes = FALSE
   ) +
+  scale_fill_manual(values = depth_cols) +
+  scale_colour_manual(values = depth_cols) +
   # labels + legend and flip coordinates
   ggplot2::labs(
     x = "Habitat (sample_place)",
@@ -220,6 +228,8 @@ p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) 
     width = 0.2,
     inherit.aes = FALSE
   ) +
+  scale_fill_manual(values = depth_cols) +
+  scale_colour_manual(values = depth_cols) +
   # labels + legend and flip coordinates
   ggplot2::labs(
     x = "Habitat (sample_place)",
