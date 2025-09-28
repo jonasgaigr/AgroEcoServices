@@ -1,5 +1,5 @@
 # ----------------------
-# A) Infiltration (log-transformed)
+# A) Infiltration (log-transformed) ----
 # ----------------------
 # Check distribution
 hist(data_raw$infiltration_adjusted, breaks = 30)
@@ -49,7 +49,7 @@ cat(report_infil, file = "Outputs/Tables/Infiltration_report.txt")
 
 
 # ----------------------
-# B) Water field capacity (WFC)
+# B) Water field capacity (WFC) ----
 # ----------------------
 
 # 1. Fit models
@@ -94,8 +94,8 @@ report_wfc <- report::report(m_wfc)
 cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
 
 # ----------------------
-# C) Available Water Storage (AWS)
-# ----------------------
+# C) Available Water Storage (AWS) ----
+# ---------
 
 # Fit models
 m_aws <- lme4::lmer(
