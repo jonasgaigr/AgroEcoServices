@@ -94,7 +94,7 @@ report_wfc <- report::report(m_wfc)
 cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
 
 # ----------------------
-# C) Available Water Storage (AWS) ----
+# C) Aggregate water stability (AWS) ----
 # ---------
 
 # Fit models

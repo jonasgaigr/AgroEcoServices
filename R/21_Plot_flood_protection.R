@@ -167,7 +167,7 @@ ggplot2::ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png", height = 5, width =
 p_wfc
 
 
-# C) Available Water Storage (AWS) -----
+# C) Aggregate water stability (AWS) -----
 
 # Manual prediction on the model (log1p) scale + WFC-style plot for AWS
 # Run after m_aws is already fitted (your lmer model on log1p(AWS))
@@ -298,7 +298,7 @@ p_aws <- ggplot2::ggplot(data_aws, ggplot2::aes(x = sample_place, y = AWS_log)) 
     y = "log(1 + AWS)",
     colour = "Depth (cm)",
     fill = "Depth (cm)",
-    title = "C) Available water storage (AWS)"
+    title = "C) Aggregate water stability (AWS)"
   ) +
   ggplot2::coord_flip() +
   ggplot2::theme_minimal()
