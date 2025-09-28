@@ -79,6 +79,8 @@ site_scores_df$sample_place <- data_raw$sample_place
 
 # Arrows (biplot scores for soil variables)
 arrow_scores_rda <- as.data.frame(scores(rda_model, display = "bp", scaling = 2))
+arrow_scores_rda$varname <- rownames(arrow_scores_rda)
+colnames(arrow_scores_rda)[1:2] <- c("RDA1", "RDA2")
 
 # Compute centroids
 centroids <- aggregate(cbind(RDA1 = site_scores_df$RDA1, RDA2 = site_scores_df$RDA2),
@@ -89,16 +91,20 @@ centroids <- aggregate(cbind(RDA1 = site_scores_df$RDA1, RDA2 = site_scores_df$R
 rda_plot <- ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)) +
   geom_point(size = 2) +
   stat_chull(aes(group = sample_place), alpha = 0.2, geom = "polygon") +
-  geom_segment(data = arrow_scores_rda,
-               aes(x = 0, y = 0, xend = RDA1, yend = RDA2),
-               arrow = arrow(length = unit(0.2, "cm")),
-               inherit.aes = FALSE,
-               color = "red") +
+  #geom_segment(data = arrow_scores_rda,
+  #             aes(x = 0, y = 0, xend = RDA1, yend = RDA2),
+  #             arrow = arrow(length = unit(0.2, "cm")),
+  #             inherit.aes = FALSE,
+  #             color = "red") +
   geom_text_repel(data = centroids,
                   aes(x = RDA1, y = RDA2, label = sample_place),
                   size = 5, fontface = "bold", color = "black") +
+  #geom_text_repel(data = arrow_scores_rda,
+  #                aes(x = RDA1, y = RDA2, label = varname),
+  #                inherit.aes = FALSE,
+  #                color = "red", size = 4) +
   theme_minimal() +
-  ggtitle("RDA\nSoil variables ~ sample_place + depth_cm + texture") +
+  ggtitle("RDA\nSoil variables ~ sample_place + texture") +
   theme(plot.title = element_text(hjust = 0.5)) +
   labs(x = "RDA1", y = "RDA2")
 
