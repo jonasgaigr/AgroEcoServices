@@ -132,34 +132,6 @@ p_wfc <- ggplot(data = data_raw,
 ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png",
        height = 5, width = 5)
 
-
-# drop NA just in case
-data_wfc <- data_raw %>% drop_na(WFC_adjusted, sample_place, depth_cm)
-
-p_wfc <- ggplot2::ggplot(data_wfc,
-                         ggplot2::aes(x = sample_place,
-                                      y = WFC_adjusted,
-                                      fill = as.factor(depth_cm),
-                                      colour = as.factor(depth_cm))) +
-  # boxplot
-  ggplot2::geom_boxplot(
-    width = 0.15, outlier.shape = NA, alpha = 0.7,
-    position = ggplot2::position_dodge(width = 0.8)
-  ) +
-  ggplot2::labs(
-    x = "Habitat (sample_place)",
-    y = "Water field capacity (WFC_adjusted)",
-    colour = "Depth (cm)",
-    fill = "Depth (cm)",
-    title = "B) Water field capacity"
-  ) +
-  ggplot2::theme_minimal()
-
-
-ggsave(p_wfc, filename = "Outputs/Plots/p_wfc.png",
-       height = 5, width = 6)
-
-
 # ----------------------
 # C) AWS
 # ----------------------
