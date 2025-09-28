@@ -62,3 +62,9 @@ habitat_cols <- c(
   "Bed"           = "#5AB4AC"   # teal
 )
 
+# Custom depth palette
+depth_cols <- c(
+  "0-5"   = "#a6cee3",  # light blue
+  "10-15" = "#e07b39",  # ochre/orange
+  "25-50" = "#4b2e2e"   # dark brown
+)
