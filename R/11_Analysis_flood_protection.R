@@ -93,13 +93,44 @@ report_wfc <- report::report(m_wfc)
 # Save the textual report
 cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
 
-# C) AWS
-m_aws <- glmer.nb(AWS ~ sample_place * depth_cm +
-                    SOC + WFC_adjusted + (1 | site_id),
-                  data = data_raw)
-m_aws_null <- glmer.nb(AWS ~ 1 + (1 | site_id),
-                       data = data_raw)
-anova(m_aws, m_aws) 
+# ----------------------
+# C) Available Water Storage (AWS)
+# ----------------------
+
+# Fit models
+m_aws <- lme4::glmer.nb(
+  AWS ~ sample_place * depth_cm + (1 | site_id),
+  data = data_raw
+)
+
+m_aws_null <- lme4::glmer.nb(
+  AWS ~ 1 + (1 | site_id),
+  data = data_raw
+)
+
+# Model comparison (LRT + AIC)
+anova(m_aws, m_aws_null)
 AIC(m_aws, m_aws_null)
 
+# Residual checks
+plot(m_aws)
+qqnorm(resid(m_aws))
+qqline(resid(m_aws))
+
+# Summarise fixed effects
+tab_aws <- broom.mixed::tidy(m_aws, effects = "fixed", conf.int = TRUE)
+
+# Regression table
+sjPlot::tab_model(
+  m_aws, m_aws_null,
+  show.icc = TRUE,
+  show.aic = TRUE,
+  show.ci = 0.95,
+  dv.labels = c("AWS ~ Habitat × Depth", "Null model"),
+  file = "Outputs/Tables/AWS_models.doc"
+)
+
+# Textual summary
+report_aws <- report::report(m_aws)
+cat(report_aws, file = "Outputs/Tables/AWS_report.txt")
 
