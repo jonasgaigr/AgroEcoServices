@@ -1,0 +1,33 @@
+site_id,sample_place,SOC_0_5,BS,biodiversity
+S1,Bed,3.598,1,7
+S1,Edible forest ,1.857,0,8
+S1,Field,1.692,70,2
+S1,Woodland ,14.481,0,3.5
+S2,Bed,2.043,33,3.6
+S2,Edible forest ,3.824,19,9
+S2,Field,2.462,93,1
+S2,Woodland ,3.306,35,5
+S3,Bed,1.812,8,5.7
+S3,Edible forest ,2.07,22,8
+S3,Field,0.853,98,2.7
+S3,Woodland ,5.981,0,1.3
+S4,Bed,7.146,29,5.3
+S4,Edible forest ,3.097,0,8
+S4,Field,1.44,20,3.7
+S4,Woodland ,3.276,0,6
+S5,Bed,10.623,5,10
+S5,Edible forest ,5.6,0,9
+S5,Field,3.032,90,2
+S5,Woodland ,16.577,0,4
+S6,Bed,3.685,43,5.7
+S6,Edible forest ,4.307,0,7
+S6,Field,1.241,30,3
+S6,Woodland ,8.594,0,5
+S7,Bed,17.282,25,6.33
+S7,Edible forest ,7.189,0,4
+S7,Field,1.591,83,1
+S7,Woodland ,6.263,0,1.7
+S8,Bed,2.452,1,8.3
+S8,Edible forest ,3.106,5,10
+S8,Field,1.773,24,1
+S8,Woodland ,5.234,0,6
