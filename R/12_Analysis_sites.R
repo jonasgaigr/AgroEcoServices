@@ -1,216 +1,181 @@
-# ----------------------
-# A) Infiltration (log-transformed) ----
-# ----------------------
-# Check distribution
-hist(data_raw$infiltration_adjusted, breaks = 30)
-hist(log1p(data_raw$infiltration_adjusted), breaks = 30)
+# === Run all site-level GLMs and export tables/reports ===
+# Creates Outputs/Tables and Outputs/Plots if missing
+base::dir.create("Outputs/Tables", recursive = TRUE, showWarnings = FALSE)
+base::dir.create("Outputs/Plots", recursive = TRUE, showWarnings = FALSE)
 
-m_site_infil <- glm(
+# ----------------------
+# A) Infiltration (site effect) ----
+# ----------------------
+m_site_infil <- stats::glm(
   log1p(infiltration_adjusted) ~ site_id,
   data = data_raw,
-  family = Gamma(link = "log")
+  family = stats::Gamma(link = "log")
 )
 
-m_site_infil_null <- glm(
+m_site_infil_null <- stats::glm(
   log1p(infiltration_adjusted) ~ 1,
   data = data_raw,
-  family = Gamma(link = "log")
+  family = stats::Gamma(link = "log")
 )
 
-# Model comparison
-anova(m_site_infil, m_site_infil_null)
-AIC(m_site_infil, m_site_infil_null)
+# comparisons & diagnostics
+stats::anova(m_site_infil, m_site_infil_null, test = "Chisq")
+stats::AIC(m_site_infil, m_site_infil_null)
 
-# Residual checks
-plot(m_site_infil)                      # residuals vs fitted
-qqnorm(resid(m_site_infil))
-qqline(resid(m_site_infil))             # normal Q-Q
+graphics::plot(m_site_infil)                             # diagnostic plots for GLM
+stats::qqnorm(stats::resid(m_site_infil)); stats::qqline(stats::resid(m_site_infil))
 
-# 2. Tidy results
-tab_infil <- broom.mixed::tidy(m_site_infil, effects = "fixed", conf.int = TRUE)
+# tidy & save
+tab_site_infil <- broom::tidy(m_site_infil, conf.int = TRUE, conf.level = 0.95)
+utils::write.csv(tab_site_infil, file = "Outputs/Tables/Infiltration_site_tidy.csv", row.names = FALSE)
 
-# 3. Make a nice regression table
-write_tab_site_infil <- 
-  sjPlot::tab_model(
-    m_site_infil, m_site_infil_null,
-    show.icc = TRUE,
-    show.aic = TRUE,
-    show.ci = 0.95,
-    dv.labels = c("log(1+Infiltration) ~ Site", "Null model"),
-    file = "Outputs/Tables/Infiltration_site_models.doc"
-  )
+write_tab_site_infil <- sjPlot::tab_model(
+  m_site_infil, m_site_infil_null,
+  show.aic = TRUE,
+  show.ci = 0.95,
+  dv.labels = c("log(1+Infiltration) ~ Site", "Null model"),
+  file = "Outputs/Tables/Infiltration_site_models.doc"
+)
 
-write_tab_site_infil
-
-# 4. Optional: APA-style summary
-library(report)
 report_site_infil <- report::report(m_site_infil)
-
-# Save the textual report
-cat(report_site_infil, file = "Outputs/Tables/Infiltration_site_report.txt")
-
+base::cat(report_site_infil, file = "Outputs/Tables/Infiltration_site_report.txt")
 
 # ----------------------
-# B) Water field capacity (WFC) ----
+# B) Water Field Capacity (site effect) ----
 # ----------------------
-
-# 1. Fit models
-m_wfc <- lme4::lmer(
-  WFC_adjusted ~ sample_place * depth_cm + (1 | site_id),
-  data = data_raw
+m_site_wfc <- stats::glm(
+  WFC_adjusted ~ site_id,
+  data = data_raw,
+  family = stats::gaussian()    # glm with identity link (equivalent to lm)
 )
 
-m_wfc_null <- lme4::lmer(
-  WFC_adjusted ~ 1 + (1 | site_id),
-  data = data_raw
+m_site_wfc_null <- stats::glm(
+  WFC_adjusted ~ 1,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-# 2. Model comparison
-anova(m_wfc, m_wfc_null)
-AIC(m_wfc, m_wfc_null)
+stats::anova(m_site_wfc, m_site_wfc_null, test = "Chisq")
+stats::AIC(m_site_wfc, m_site_wfc_null)
 
-# 3. Diagnostics
-plot(m_wfc)                  # residuals vs fitted
-qqnorm(resid(m_wfc))         # Q-Q plot
-qqline(resid(m_wfc))
+graphics::plot(m_site_wfc)
+stats::qqnorm(stats::resid(m_site_wfc)); stats::qqline(stats::resid(m_site_wfc))
 
-# 4. Tidy results
-tab_wfc <- broom.mixed::tidy(m_wfc, effects = "fixed", conf.int = TRUE)
+tab_site_wfc <- broom::tidy(m_site_wfc, conf.int = TRUE, conf.level = 0.95)
+utils::write.csv(tab_site_wfc, file = "Outputs/Tables/WFC_site_tidy.csv", row.names = FALSE)
 
-# 5. Make regression tables and export
-write_tab_wfc <- sjPlot::tab_model(
-  m_wfc, m_wfc_null,
-  show.icc = TRUE,
+write_tab_site_wfc <- sjPlot::tab_model(
+  m_site_wfc, m_site_wfc_null,
   show.aic = TRUE,
   show.ci = 0.95,
-  dv.labels = c("WFC_adjusted ~ predictors", "Null model"),
-  file = "Outputs/Tables/WFC_models.doc"
+  dv.labels = c("WFC_adjusted ~ Site", "Null model"),
+  file = "Outputs/Tables/WFC_site_models.doc"
 )
 
-write_tab_wfc
-
-# 6. Narrative APA-style summary
-report_wfc <- report::report(m_wfc)
-
-# Save the textual report
-cat(report_wfc, file = "Outputs/Tables/WFC_report.txt")
+report_site_wfc <- report::report(m_site_wfc)
+base::cat(report_site_wfc, file = "Outputs/Tables/WFC_site_report.txt")
 
 # ----------------------
-# C) Aggregate water stability (AWS) ----
-# ---------
-
-# Fit models
-m_aws <- lme4::lmer(
-  log1p(AWS) ~ sample_place * depth_cm + (1 | site_id),
-  data = data_raw
+# C) Aggregate water stability (AWS) (site effect) ----
+# ----------------------
+m_site_aws <- stats::glm(
+  log1p(AWS) ~ site_id,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-m_aws_null <- lme4::lmer(
-  log1p(AWS) ~ 1 + (1 | site_id),
-  data = data_raw
+m_site_aws_null <- stats::glm(
+  log1p(AWS) ~ 1,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-# Model comparison (LRT + AIC)
-anova(m_aws, m_aws_null)
-AIC(m_aws, m_aws_null)
+stats::anova(m_site_aws, m_site_aws_null, test = "Chisq")
+stats::AIC(m_site_aws, m_site_aws_null)
 
-# Residual checks
-plot(m_aws)
-qqnorm(resid(m_aws))
-qqline(resid(m_aws))
+graphics::plot(m_site_aws)
+stats::qqnorm(stats::resid(m_site_aws)); stats::qqline(stats::resid(m_site_aws))
 
-# Summarise fixed effects
-tab_aws <- broom.mixed::tidy(m_aws, effects = "fixed", conf.int = TRUE)
+tab_site_aws <- broom::tidy(m_site_aws, conf.int = TRUE, conf.level = 0.95)
+utils::write.csv(tab_site_aws, file = "Outputs/Tables/AWS_site_tidy.csv", row.names = FALSE)
 
-# Regression table
-sjPlot::tab_model(
-  m_aws, m_aws_null,
-  show.icc = TRUE,
+write_tab_site_aws <- sjPlot::tab_model(
+  m_site_aws, m_site_aws_null,
   show.aic = TRUE,
   show.ci = 0.95,
-  dv.labels = c("AWS ~ Habitat × Depth", "Null model"),
-  file = "Outputs/Tables/AWS_models.doc"
+  dv.labels = c("log(1+AWS) ~ Site", "Null model"),
+  file = "Outputs/Tables/AWS_site_models.doc"
 )
 
-# Textual summary
-report_aws <- report::report(m_aws)
-cat(report_aws, file = "Outputs/Tables/AWS_report.txt")
+report_site_aws <- report::report(m_site_aws)
+base::cat(report_site_aws, file = "Outputs/Tables/AWS_site_report.txt")
 
 # ----------------------
-# D) Soil organic carbon (SOC) ----
+# D) Soil Organic Carbon (SOC) (site effect) ----
 # ----------------------
-m_soc <- lme4::lmer(
-  log1p(SOC) ~ sample_place * depth_cm + (1 | site_id),
-  data = data_raw
+m_site_soc <- stats::glm(
+  log1p(SOC) ~ site_id,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-m_soc_null <- lme4::lmer(
-  log1p(SOC) ~ 1 + (1 | site_id),
-  data = data_raw
+m_site_soc_null <- stats::glm(
+  log1p(SOC) ~ 1,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-## 2) Model comparison (LRT + AIC) ---------------------------------------------
-anova(m_soc, m_soc_null)
-AIC(m_soc, m_soc_null)
+stats::anova(m_site_soc, m_site_soc_null, test = "Chisq")
+stats::AIC(m_site_soc, m_site_soc_null)
 
-## 3) Residual checks ----------------------------------------------------------
-plot(m_soc) 
-qqnorm(resid(m_soc))
-qqline(resid(m_soc))
+graphics::plot(m_site_soc)
+stats::qqnorm(stats::resid(m_site_soc)); stats::qqline(stats::resid(m_site_soc))
 
+tab_site_soc <- broom::tidy(m_site_soc, conf.int = TRUE, conf.level = 0.95)
+utils::write.csv(tab_site_soc, file = "Outputs/Tables/SOC_site_tidy.csv", row.names = FALSE)
 
-## 4) Summarise fixed effects --------------------------------------------------
-tab_soc <- broom.mixed::tidy(m_soc, effects = "fixed", conf.int = TRUE)
-
-# Regression table
-sjPlot::tab_model(
-  m_soc, m_soc_null,
-  show.icc = TRUE,
+write_tab_site_soc <- sjPlot::tab_model(
+  m_site_soc, m_site_soc_null,
   show.aic = TRUE,
   show.ci = 0.95,
-  dv.labels = c("SOC ~ Habitat × Depth", "Null model"),
-  file = "Outputs/Tables/SOC_models.doc"
+  dv.labels = c("log(1+SOC) ~ Site", "Null model"),
+  file = "Outputs/Tables/SOC_site_models.doc"
 )
 
-# Textual summary
-report_soc <- report::report(m_soc)
-cat(report_soc, file = "Outputs/Tables/SOC_report.txt")
+report_site_soc <- report::report(m_site_soc)
+base::cat(report_site_soc, file = "Outputs/Tables/SOC_site_report.txt")
 
 # ----------------------
-# E) Bare soil (BS) ----
+# E) Bare Soil (BS) (site effect) ----
 # ----------------------
-## 1) Fit models ---------------------------------------------------------------
-m_bs <- lme4::lmer(
-  BS ~ sample_place + (1 | site_id),
-  data = data_raw
+m_site_bs <- stats::glm(
+  BS ~ site_id,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-m_bs_null <- lme4::lmer(
-  BS ~ 1 + (1 | site_id),
-  data = data_raw
+m_site_bs_null <- stats::glm(
+  BS ~ 1,
+  data = data_raw,
+  family = stats::gaussian()
 )
 
-## 2) Model comparison (LRT + AIC) ---------------------------------------------
-anova(m_bs, m_bs_null)
-AIC(m_bs, m_bs_null)
+stats::anova(m_site_bs, m_site_bs_null, test = "Chisq")
+stats::AIC(m_site_bs, m_site_bs_null)
 
-## 3) Residual checks ----------------------------------------------------------
-plot(m_bs)
-qqnorm(resid(m_bs)); qqline(resid(m_bs))
+graphics::plot(m_site_bs)
+stats::qqnorm(stats::resid(m_site_bs)); stats::qqline(stats::resid(m_site_bs))
 
-## 4) Summarise fixed effects --------------------------------------------------
-tab_bs <- broom.mixed::tidy(m_bs, effects = "fixed", conf.int = TRUE)
+tab_site_bs <- broom::tidy(m_site_bs, conf.int = TRUE, conf.level = 0.95)
+utils::write.csv(tab_site_bs, file = "Outputs/Tables/BS_site_tidy.csv", row.names = FALSE)
 
-# Regression table
-sjPlot::tab_model(
-  m_bs, m_bs_null,
-  show.icc = TRUE,
+write_tab_site_bs <- sjPlot::tab_model(
+  m_site_bs, m_site_bs_null,
   show.aic = TRUE,
   show.ci = 0.95,
-  dv.labels = c("BS ~ Habitat × Depth", "Null model"),
-  file = "Outputs/Tables/BS_models.doc"
+  dv.labels = c("BS ~ Site", "Null model"),
+  file = "Outputs/Tables/BS_site_models.doc"
 )
 
-# Textual summary
-report_bs <- report::report(m_bs)
-cat(report_bs, file = "Outputs/Tables/BS_report.txt")
+report_site_bs <- report::report(m_site_bs)
+base::cat(report_site_bs, file = "Outputs/Tables/BS_site_report.txt")
