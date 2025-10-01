@@ -308,6 +308,105 @@ ggplot2::ggsave(p_aws, filename = "Outputs/Plots/p_aws.png", height = 5, width =
 p_aws
 
 
+# D) Soil organic carbon (SOC) ----
+# ----------------------
+# D) Soil organic carbon (SOC) ----
+# ----------------------
+
+# 1) Data prep
+data_soc <- dplyr::filter(
+  data_raw,
+  !is.na(SOC),
+  !is.na(sample_place),
+  !is.na(depth_cm)
+)
+
+pred_soc <- ggeffects::ggpredict(m_soc, terms = "sample_place") %>%
+  dplyr::filter(group != "1")
+
+# back-transform predicted values and CI
+pred_soc <- pred_soc %>%
+  dplyr::mutate(
+    predicted = exp(predicted) - 1,
+    conf.low  = exp(conf.low) - 1,
+    conf.high = exp(conf.high) - 1
+  )
+
+# 2) Ensure correct factor order
+data_soc$sample_place <- factor(
+  data_soc$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+data_soc$depth_cm <- factor(
+  data_soc$depth_cm,
+  levels = c("0-5", "10-15", "25-30")
+)
+
+pred_soc$sample_place <- factor(
+  pred_soc$sample_place,
+  levels = c("Field", "Bed", "Edible forest", "Woodland")
+)
+pred_soc$depth_cm <- factor(
+  pred_soc$depth_cm,
+  levels = c("0-5", "10-15", "25-30")
+)
+
+# 3) Raincloud plot
+p_soc <- ggplot(
+  data = data_soc,
+  aes(
+    x = sample_place, 
+    y = SOC,
+    fill = sample_place,
+    colour = sample_place
+  )
+) +
+  # half violin ("cloud")
+  see::geom_violinhalf(
+    position = position_nudge(x = 0.2, y = 0),
+    side = "l", alpha = 0.6, trim = FALSE
+  ) +
+  geom_boxplot(
+    width = 0.2, outlier.shape = NA, alpha = 0.8
+  ) +
+  # raw points ("rain")
+  geom_jitter(
+    width = 0.1, alpha = 0.5, size = 1
+  ) +
+  scale_fill_manual(values = habitat_cols, guide = "none") +
+  scale_colour_manual(values = habitat_cols, guide = "none") +
+  labs(
+    x = "Habitat (sample_place)",
+    y = "Soil Organic Carbon (%)",
+    title = "D) Soil Organic Carbon (SOC) ~ sample_place"
+  ) +
+  scale_y_continuous(
+    expand = expansion(mult = c(0, 0.05)),  # keeps 0 visible
+    limits = c(0, NA),                       # clip below 0
+    name = "Soil Organic Carbon (%)"
+  ) +
+  coord_flip() +
+  theme_minimal()
+
+# 4) Add predicted means + CI
+p_soc_pred <- p_soc +
+  ggplot2::geom_point(
+    data = pred_soc,
+    ggplot2::aes(x = group, y = predicted),
+    inherit.aes = FALSE,
+    color = "red", size = 3
+  ) +
+  ggplot2::geom_errorbar(
+    data = pred_soc,
+    ggplot2::aes(x = group, ymin = conf.low, ymax = conf.high),
+    inherit.aes = FALSE,
+    color = "red", width = 0.2
+  )
+
+# 5) Save
+ggsave(p_soc_pred, filename = "Outputs/Plots/p_soc.png",
+       height = 5, width = 5)
+
 # E) Bare soil (BS) ----
 
 # Prepare data and predictions, then build plot (explicit namespaces everywhere)
