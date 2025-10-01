@@ -79,13 +79,13 @@ base::cat(report_site_wfc, file = "Outputs/Tables/WFC_site_report.txt")
 # C) Aggregate water stability (AWS) (site effect) ----
 # ----------------------
 m_site_aws <- stats::glm(
-  log1p(AWS) ~ site_id,
+  AWS ~ site_id,
   data = data_raw,
   family = stats::gaussian()
 )
 
 m_site_aws_null <- stats::glm(
-  log1p(AWS) ~ 1,
+  AWS ~ 1,
   data = data_raw,
   family = stats::gaussian()
 )
