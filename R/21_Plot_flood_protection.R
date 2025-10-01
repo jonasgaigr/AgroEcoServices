@@ -54,9 +54,9 @@ p_infil <- ggplot(
   scale_colour_manual(values = habitat_cols, guide = "none") +
   # predicted means + CI
   labs(
-    x = "Habitat (sample_place)",
-    y = "log(1+Infiltration)",
-    title = "A) Infiltration ~ sample_place"
+    x = "Habitat (sample_place)\n",
+    y = "\nlog(1+Infiltration)",
+    title = "A) Infiltration ~ sample_place\n"
   ) +
   coord_flip() +
   theme_minimal()
@@ -376,9 +376,9 @@ p_soc <- ggplot(
   scale_fill_manual(values = habitat_cols, guide = "none") +
   scale_colour_manual(values = habitat_cols, guide = "none") +
   labs(
-    x = "Habitat (sample_place)",
-    y = "Soil Organic Carbon (%)",
-    title = "D) Soil Organic Carbon (SOC) ~ sample_place"
+    x = "Habitat (sample_place)\n",
+    y = "\nSoil Organic Carbon (%)",
+    title = "D) Soil Organic Carbon (SOC) ~ sample_place\n"
   ) +
   scale_y_continuous(
     expand = expansion(mult = c(0, 0.05)),  # keeps 0 visible
@@ -475,9 +475,9 @@ p_bs <- ggplot2::ggplot(
   ggplot2::scale_fill_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   ggplot2::scale_colour_manual(values = habitat_cols, name = "Habitat", guide = "none") +
   ggplot2::labs(
-    x = "Habitat (sample_place)",
-    y = "Bare Soil (BS)",
-    title = "D) Bare Soil (BS)"
+    x = "Habitat (sample_place)\n",
+    y = "\nBare Soil (BS)",
+    title = "D) Bare Soil (BS)\n"
   ) +
   ggplot2::coord_flip() +
   ggplot2::theme_minimal()
