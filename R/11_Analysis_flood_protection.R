@@ -137,7 +137,42 @@ cat(report_aws, file = "Outputs/Tables/AWS_report.txt")
 # ----------------------
 # D) Soil organic carbon (SOC) ----
 # ----------------------
+m_soc <- lme4::lmer(
+  log1p(SOC) ~ sample_place * depth_cm + (1 | site_id),
+  data = data_raw
+)
 
+m_soc_null <- lme4::lmer(
+  log1p(SOC) ~ 1 + (1 | site_id),
+  data = data_raw
+)
+
+## 2) Model comparison (LRT + AIC) ---------------------------------------------
+anova(m_soc, m_soc_null)
+AIC(m_soc, m_soc_null)
+
+## 3) Residual checks ----------------------------------------------------------
+plot(m_soc) 
+qqnorm(resid(m_soc))
+qqline(resid(m_soc))
+
+
+## 4) Summarise fixed effects --------------------------------------------------
+tab_soc <- broom.mixed::tidy(m_soc, effects = "fixed", conf.int = TRUE)
+
+# Regression table
+sjPlot::tab_model(
+  m_soc, m_soc_null,
+  show.icc = TRUE,
+  show.aic = TRUE,
+  show.ci = 0.95,
+  dv.labels = c("SOC ~ Habitat × Depth", "Null model"),
+  file = "Outputs/Tables/SOC_models.doc"
+)
+
+# Textual summary
+report_soc <- report::report(m_soc)
+cat(report_soc, file = "Outputs/Tables/SOC_report.txt")
 
 # ----------------------
 # E) Bare soil (BS) ----
