@@ -1,0 +1,11 @@
+We fitted a general linear model (Gamma family with a log link) (estimated using ML) to predict infiltration_adjusted with site_id (formula: log1p(infiltration_adjusted) ~ site_id). The model's explanatory power is substantial (Nagelkerke's R2 = 0.39). The model's intercept, corresponding to site_id = S1, is at -0.57 (95% CI [-0.98, -0.08], t(88) = -2.48, p = 0.013). Within this model:
+
+  - The effect of site id [S2] is statistically non-significant and positive (beta = 0.43, 95% CI [-0.21, 1.07], t(88) = 1.33, p = 0.183; Std. beta = 0.43, 95% CI [-0.21, 1.07])
+  - The effect of site id [S3] is statistically significant and negative (beta = -1.43, 95% CI [-2.07, -0.79], t(88) = -4.43, p < .001; Std. beta = -1.43, 95% CI [-2.07, -0.79])
+  - The effect of site id [S4] is statistically non-significant and negative (beta = -0.04, 95% CI [-0.68, 0.60], t(88) = -0.13, p = 0.898; Std. beta = -0.04, 95% CI [-0.68, 0.60])
+  - The effect of site id [S5] is statistically significant and positive (beta = 0.74, 95% CI [0.10, 1.38], t(88) = 2.28, p = 0.023; Std. beta = 0.74, 95% CI [0.10, 1.38])
+  - The effect of site id [S6] is statistically non-significant and negative (beta = -0.29, 95% CI [-0.93, 0.35], t(88) = -0.91, p = 0.364; Std. beta = -0.29, 95% CI [-0.93, 0.35])
+  - The effect of site id [S7] is statistically non-significant and negative (beta = -0.54, 95% CI [-1.18, 0.10], t(88) = -1.67, p = 0.095; Std. beta = -0.54, 95% CI [-1.18, 0.10])
+  - The effect of site id [S8] is statistically non-significant and negative (beta = -0.54, 95% CI [-1.18, 0.10], t(88) = -1.66, p = 0.097; Std. beta = -0.54, 95% CI [-1.18, 0.10])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
