@@ -53,6 +53,14 @@ glimpse(data_raw)
 # Check unique values for categorical candidates
 lapply(data_raw, function(x) if(is.character(x) | is.factor(x)) unique(x))
 
+data_bd <- readr::read_csv("Data/Input/data_bd.csv") %>%
+  dplyr::mutate(
+    site_id = as.factor(site_id),
+    sample_place = as.factor(sample_place)
+  )
+
+# Check structure
+glimpse(data_bd) 
 
 # Custom palette for 4 habitats
 habitat_cols <- c(
