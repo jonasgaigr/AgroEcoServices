@@ -24,18 +24,18 @@ plot_site_effect <- function(model, response, response_label, file_tag, transfor
                  colour = var_cols[[response_label]]) +
     geom_jitter(width = 0.1, alpha = 0.5, size = 1,
                 colour = var_cols[[response_label]]) +
-    geom_point(
-      data = pred,
-      aes(x = site_id, y = predicted),
-      inherit.aes = FALSE,
-      size = 3, shape = 18, colour = var_cols[[response_label]]
-    ) +
-    geom_errorbar(
-      data = pred,
-      aes(x = site_id, ymin = conf.low, ymax = conf.high),
-      inherit.aes = FALSE,
-      width = 0.2, colour = var_cols[[response_label]]
-    ) +
+    #geom_point(
+    #  data = pred,
+    #  aes(x = site_id, y = predicted),
+    #  inherit.aes = FALSE,
+    #  size = 3, shape = 18, colour = var_cols[[response_label]]
+    #) +
+    #geom_errorbar(
+    #  data = pred,
+    #  aes(x = site_id, ymin = conf.low, ymax = conf.high),
+    #  inherit.aes = FALSE,
+    #  width = 0.2, colour = var_cols[[response_label]]
+    #) +
     labs(
       x = "Site",
       y = y_lab,
@@ -145,3 +145,25 @@ p_site_bs <- plot_site_effect(
 
 # show one to check
 p_site_infil
+
+# Make a composite plot (2 x 3 grid, with one empty slot)
+p_composite_site <- (
+  p_site_infil + 
+    p_site_wfc + 
+    p_site_aws +
+    p_site_soc + 
+    p_site_bs +
+    plot_spacer()
+) +
+  plot_layout(ncol = 1)
+
+# Center titles globally
+p_composite_site <- p_composite_site & theme(plot.title = element_text(hjust = 0.5))
+
+# Save composite
+ggsave("Outputs/Plots/Site_effects_composite.png",
+       plot = p_composite, width = 12, height = 18)
+
+# Save composite as PDF
+ggsave("Outputs/Plots/Site_effects_composite.pdf",
+       plot = p_composite, width = 12, height = 10, device = cairo_pdf)
