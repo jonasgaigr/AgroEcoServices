@@ -76,3 +76,12 @@ depth_cols <- c(
   "10-15" = "#e07b39",  # ochre/orange
   "25-30" = "#4b2e2e"   # dark brown
 )
+
+# Palette for 5 soil variables
+var_cols <- c(
+  "Infiltration"  = "#1b9e77",  # teal-green
+  "Water Field Capacity (WFC)"           = "#d95f02",  # strong orange
+  "Available Water Storage (AWS)"           = "#7570b3",  # purple
+  "Soil Organic Carbon (SOC)"           = "#e7298a",  # magenta-pink
+  "Bare Soil (BS)"            = "#66a61e"   # olive green
+)
