@@ -78,7 +78,6 @@ p_infil_pred <- p_infil +
 ggsave(p_infil_pred, filename = "Outputs/Plots/p_infil.png",
        height = 5, width = 5)
 
-
 # B) Water field capacity ----
 
 # Prepare data and predictions, then build plot (explicit namespaces everywhere)
@@ -491,3 +490,25 @@ p_bs
 # Combine plots
 # ----------------------
 p_infil / p_wfc / p_aws
+
+# Make a composite plot (2 x 3 grid, with one empty slot)
+p_composite <- (
+  p_infil + 
+    p_wfc + 
+    p_aws +
+    p_soc + 
+    p_bs +
+    plot_spacer()
+) +
+  plot_layout(ncol = 1)
+
+# Center titles globally
+p_composite <- p_composite & theme(plot.title = element_text(hjust = 0.5))
+
+# Save composite
+ggsave("Outputs/Plots/Variable_effects_composite.png",
+       plot = p_composite, width = 12, height = 18)
+
+# Save composite as PDF
+ggsave("Outputs/Plots/Variable_effects_composite.pdf",
+       plot = p_composite, width = 12, height = 10, device = cairo_pdf)
