@@ -57,6 +57,10 @@ pca_plot <- ggplot(site_scores_df, aes(x = PC1, y = PC2, color = sample_place)) 
 
 ggsave(pca_plot, filename = "Outputs/Plots/pca.png", height = 5, width = 6)
 
+# Save PCA as PDF
+ggsave("Outputs/Plots/pca.pdf",
+       plot = pca_plot, width = 5, height = 5, device = cairo_pdf)
+
 # --- RDA (constrained ordination) ---
 # Explanatory variables: sample_place
 rda_model <- rda(
@@ -112,3 +116,7 @@ rda_plot <- ggplot(site_scores_df, aes(x = RDA1, y = RDA2, color = sample_place)
   labs(x = "RDA1", y = "RDA2")
 
 ggsave(rda_plot, filename = "Outputs/Plots/rda.png", height = 5, width = 6)
+
+# Save RDA as PDF
+ggsave("Outputs/Plots/rda.pdf",
+       plot = rda_plot, width = 5, height = 5, device = cairo_pdf)
