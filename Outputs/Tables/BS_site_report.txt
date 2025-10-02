@@ -1,0 +1,11 @@
+We fitted a linear model (estimated using ML) to predict BS with site_id (formula: log1p(BS) ~ site_id). The model's explanatory power is very weak (R2 = -0.46). The model's intercept, corresponding to site_id = S1, is at 1.24 (95% CI [0.28, 2.19], t(88) = 2.54, p = 0.011). Within this model:
+
+  - The effect of site id [S2] is statistically significant and positive (beta = 2.42, 95% CI [1.07, 3.77], t(88) = 3.52, p < .001; Std. beta = 0.32, 95% CI [0.08, 0.57])
+  - The effect of site id [S3] is statistically non-significant and positive (beta = 1.24, 95% CI [-0.11, 2.59], t(88) = 1.81, p = 0.071; Std. beta = 0.15, 95% CI [-0.09, 0.39])
+  - The effect of site id [S4] is statistically non-significant and positive (beta = 0.37, 95% CI [-0.98, 1.72], t(88) = 0.54, p = 0.589; Std. beta = -0.03, 95% CI [-0.27, 0.22])
+  - The effect of site id [S5] is statistically non-significant and positive (beta = 0.34, 95% CI [-1.01, 1.69], t(88) = 0.49, p = 0.625; Std. beta = 0.05, 95% CI [-0.19, 0.29])
+  - The effect of site id [S6] is statistically non-significant and positive (beta = 0.57, 95% CI [-0.78, 1.92], t(88) = 0.82, p = 0.411; Std. beta = 0.04, 95% CI [-0.20, 0.28])
+  - The effect of site id [S7] is statistically non-significant and positive (beta = 0.68, 95% CI [-0.67, 2.03], t(88) = 0.99, p = 0.321; Std. beta = 0.11, 95% CI [-0.14, 0.35])
+  - The effect of site id [S8] is statistically non-significant and positive (beta = 0.19, 95% CI [-1.16, 1.54], t(88) = 0.27, p = 0.786; Std. beta = -0.09, 95% CI [-0.33, 0.15])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.

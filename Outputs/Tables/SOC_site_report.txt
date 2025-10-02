@@ -1,0 +1,11 @@
+We fitted a general linear model (Gamma family with a log link) (estimated using ML) to predict SOC with site_id (formula: log1p(SOC) ~ site_id). The model's explanatory power is substantial (Nagelkerke's R2 = 0.27). The model's intercept, corresponding to site_id = S1, is at 0.46 (95% CI [0.27, 0.65], t(88) = 4.73, p < .001). Within this model:
+
+  - The effect of site id [S2] is statistically non-significant and negative (beta = -0.16, 95% CI [-0.42, 0.11], t(88) = -1.16, p = 0.248; Std. beta = -0.16, 95% CI [-0.42, 0.11])
+  - The effect of site id [S3] is statistically significant and negative (beta = -0.29, 95% CI [-0.56, -0.02], t(88) = -2.14, p = 0.033; Std. beta = -0.29, 95% CI [-0.56, -0.02])
+  - The effect of site id [S4] is statistically non-significant and negative (beta = -0.07, 95% CI [-0.34, 0.19], t(88) = -0.55, p = 0.584; Std. beta = -0.07, 95% CI [-0.34, 0.19])
+  - The effect of site id [S5] is statistically significant and positive (beta = 0.31, 95% CI [0.04, 0.58], t(88) = 2.28, p = 0.022; Std. beta = 0.31, 95% CI [0.04, 0.58])
+  - The effect of site id [S6] is statistically non-significant and negative (beta = -3.79e-03, 95% CI [-0.27, 0.26], t(88) = -0.03, p = 0.978; Std. beta = -3.79e-03, 95% CI [-0.27, 0.26])
+  - The effect of site id [S7] is statistically non-significant and positive (beta = 0.23, 95% CI [-0.04, 0.50], t(88) = 1.70, p = 0.089; Std. beta = 0.23, 95% CI [-0.04, 0.50])
+  - The effect of site id [S8] is statistically non-significant and negative (beta = -0.14, 95% CI [-0.40, 0.13], t(88) = -1.00, p = 0.316; Std. beta = -0.14, 95% CI [-0.40, 0.13])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.

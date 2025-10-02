@@ -1,0 +1,11 @@
+We fitted a linear model (estimated using ML) to predict AWS with site_id (formula: log1p(AWS) ~ site_id). The model's explanatory power is very weak (R2 = -0.23). The model's intercept, corresponding to site_id = S1, is at 4.76 (95% CI [3.91, 5.60], t(88) = 11.03, p < .001). Within this model:
+
+  - The effect of site id [S2] is statistically non-significant and negative (beta = -0.09, 95% CI [-1.28, 1.11], t(88) = -0.15, p = 0.883; Std. beta = -0.12, 95% CI [-0.32, 0.08])
+  - The effect of site id [S3] is statistically non-significant and negative (beta = -0.67, 95% CI [-1.86, 0.53], t(88) = -1.09, p = 0.274; Std. beta = -0.13, 95% CI [-0.34, 0.07])
+  - The effect of site id [S4] is statistically non-significant and positive (beta = 0.32, 95% CI [-0.88, 1.51], t(88) = 0.52, p = 0.603; Std. beta = 0.04, 95% CI [-0.16, 0.25])
+  - The effect of site id [S5] is statistically non-significant and positive (beta = 0.12, 95% CI [-1.07, 1.32], t(88) = 0.20, p = 0.841; Std. beta = -8.61e-03, 95% CI [-0.21, 0.19])
+  - The effect of site id [S6] is statistically non-significant and negative (beta = -0.54, 95% CI [-1.73, 0.66], t(88) = -0.89, p = 0.376; Std. beta = -0.13, 95% CI [-0.33, 0.07])
+  - The effect of site id [S7] is statistically non-significant and negative (beta = -0.71, 95% CI [-1.91, 0.48], t(88) = -1.17, p = 0.241; Std. beta = -0.17, 95% CI [-0.37, 0.03])
+  - The effect of site id [S8] is statistically non-significant and positive (beta = 0.77, 95% CI [-0.42, 1.96], t(88) = 1.26, p = 0.206; Std. beta = -4.09e-03, 95% CI [-0.21, 0.20])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
