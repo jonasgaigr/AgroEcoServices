@@ -316,8 +316,7 @@ p_aws
 data_soc <- dplyr::filter(
   data_raw,
   !is.na(SOC),
-  !is.na(sample_place),
-  !is.na(depth_cm)
+  !is.na(sample_place)
 )
 
 pred_soc <- ggeffects::ggpredict(m_soc, terms = "sample_place") %>%
@@ -390,13 +389,15 @@ p_soc <- ggplot(
 # 4) Add predicted means + CI
 p_soc_pred <- p_soc +
   ggplot2::geom_point(
-    data = pred_soc,
+    data = pred_soc %>%
+      dplyr::filter(group != "1"),
     ggplot2::aes(x = group, y = predicted),
     inherit.aes = FALSE,
     color = "red", size = 3
   ) +
   ggplot2::geom_errorbar(
-    data = pred_soc,
+    data = pred_soc %>%
+      dplyr::filter(group != "1"),
     ggplot2::aes(x = group, ymin = conf.low, ymax = conf.high),
     inherit.aes = FALSE,
     color = "red", width = 0.2
