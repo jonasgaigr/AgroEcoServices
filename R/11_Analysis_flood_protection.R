@@ -138,7 +138,7 @@ cat(report_aws, file = "Outputs/Tables/AWS_report.txt")
 # D) Soil organic carbon (SOC) ----
 # ----------------------
 m_soc <- lme4::lmer(
-  log1p(SOC) ~ sample_place * depth_cm + (1 | site_id),
+  log1p(SOC) ~ sample_place + (1 | site_id),
   data = data_raw
 )
 
