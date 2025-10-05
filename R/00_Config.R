@@ -64,10 +64,10 @@ glimpse(data_bd)
 
 # Custom palette for 4 habitats
 habitat_cols <- c(
-  "Woodland"      = "#006400",  # deep green
-  "Field"         = "#E66101",  # warm orange
-  "Edible forest" = "#4DAF4A",  # fresh green
-  "Bed"           = "#5AB4AC"   # teal
+  "woodland"      = "#006400",  # deep green
+  "field"         = "#E66101",  # warm orange
+  "edible forest" = "#4DAF4A",  # fresh green
+  "bed"           = "#5AB4AC"   # teal
 )
 
 # Custom depth palette
@@ -79,9 +79,9 @@ depth_cols <- c(
 
 # Palette for 5 soil variables
 var_cols <- c(
-  "Infiltration"  = "#1b9e77",  # teal-green
-  "Water Field Capacity (WFC)"           = "#d95f02",  # strong orange
-  "Available Water Storage (AWS)"           = "#7570b3",  # purple
-  "Soil Organic Carbon (SOC)"           = "#e7298a",  # magenta-pink
-  "Bare Soil (BS)"            = "#66a61e"   # olive green
+  "infiltration"  = "#1b9e77",  # teal-green
+  "water field capacity (WFC)"           = "#d95f02",  # strong orange
+  "available water storage (AWS)"           = "#7570b3",  # purple
+  "soil organic carbon (SOC)"           = "#e7298a",  # magenta-pink
+  "bare soil (BS)"            = "#66a61e"   # olive green
 )

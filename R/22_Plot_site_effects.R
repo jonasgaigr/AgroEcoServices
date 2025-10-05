@@ -60,7 +60,7 @@ plot_site_effect <- function(model, response, response_label, file_tag, transfor
 # ----------------------
 p_site_infil <- plot_site_effect(
   m_site_infil, "infiltration_adjusted",
-  response_label = "Infiltration",
+  response_label = "infiltration",
   file_tag = "Infiltration",
   transform = TRUE
 )
@@ -68,7 +68,7 @@ p_site_infil <- plot_site_effect(
 # B) WFC (site)
 p_site_wfc <- plot_site_effect(
   m_site_wfc, "WFC_adjusted",
-  response_label = "Water Field Capacity (WFC)",
+  response_label = "water field capacity (WFC)",
   file_tag = "WFC",
   transform = FALSE
 )
@@ -76,7 +76,7 @@ p_site_wfc <- plot_site_effect(
 # C) AWS (site)
 p_site_aws <- plot_site_effect(
   m_site_aws, "AWS",
-  response_label = "Available Water Storage (AWS)",
+  response_label = "available water storage (AWS)",
   file_tag = "AWS",
   transform = TRUE
 )
@@ -84,7 +84,7 @@ p_site_aws <- plot_site_effect(
 # D) SOC (site)
 p_site_soc <- plot_site_effect(
   m_site_soc, "SOC",
-  response_label = "Soil Organic Carbon (SOC)",
+  response_label = "soil organic carbon (SOC)",
   file_tag = "SOC",
   transform = TRUE
 )
@@ -92,7 +92,7 @@ p_site_soc <- plot_site_effect(
 # E) Bare Soil (site)
 p_site_bs <- plot_site_effect(
   m_site_bs, "BS",
-  response_label = "Bare Soil (BS)",
+  response_label = "bare soil (BS)",
   file_tag = "BS",
   transform = TRUE
 )
@@ -106,7 +106,7 @@ p_site_infil
 # ----------------------
 p_site_infil <- plot_site_effect(
   m_site_infil, "infiltration_adjusted",
-  response_label = "Infiltration",
+  response_label = "infiltration",
   file_tag = "Infiltration",
   transform = TRUE
 )
@@ -114,7 +114,7 @@ p_site_infil <- plot_site_effect(
 # B) WFC (site)
 p_site_wfc <- plot_site_effect(
   m_site_wfc, "WFC_adjusted",
-  response_label = "Water Field Capacity (WFC)",
+  response_label = "water field capacity (WFC)",
   file_tag = "WFC",
   transform = FALSE
 )
@@ -122,7 +122,7 @@ p_site_wfc <- plot_site_effect(
 # C) AWS (site)
 p_site_aws <- plot_site_effect(
   m_site_aws, "AWS",
-  response_label = "Available Water Storage (AWS)",
+  response_label = "available water storage (AWS)",
   file_tag = "AWS",
   transform = TRUE
 )
@@ -130,7 +130,7 @@ p_site_aws <- plot_site_effect(
 # D) SOC (site)
 p_site_soc <- plot_site_effect(
   m_site_soc, "SOC",
-  response_label = "Soil Organic Carbon (SOC)",
+  response_label = "soil organic carbon (SOC)",
   file_tag = "SOC",
   transform = TRUE
 )
@@ -138,7 +138,7 @@ p_site_soc <- plot_site_effect(
 # E) Bare Soil (site)
 p_site_bs <- plot_site_effect(
   m_site_bs, "BS",
-  response_label = "Bare Soil (BS)",
+  response_label = "bare soil (BS)",
   file_tag = "BS",
   transform = TRUE
 )

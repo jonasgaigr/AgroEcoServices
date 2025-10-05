@@ -12,7 +12,7 @@ pred_infil <- ggeffects::ggpredict(m_infil, terms = "sample_place") %>%
 # ensure correct factor order
 data_infil$sample_place <- factor(
   data_infil$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 data_infil$depth_cm <- factor(
   data_infil$depth_cm,
@@ -21,7 +21,7 @@ data_infil$depth_cm <- factor(
 
 pred_infil$sample_place <- factor(
   pred_infil$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 pred_infil$depth_cm <- factor(
   pred_infil$depth_cm,
@@ -100,7 +100,7 @@ pred_wfc$depth_cm     <- factor(pred_wfc$group, levels = levels(data_wfc$depth_c
 # ensure correct factor order
 data_wfc$sample_place <- factor(
   data_wfc$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 data_wfc$depth_cm <- factor(
   data_wfc$depth_cm,
@@ -109,7 +109,7 @@ data_wfc$depth_cm <- factor(
 
 pred_wfc$sample_place <- factor(
   pred_wfc$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 pred_wfc$depth_cm <- factor(
   pred_wfc$depth_cm,
@@ -243,7 +243,7 @@ print(pred_df)
 # ensure correct order in both datasets
 data_aws$sample_place <- factor(
   data_aws$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 data_aws$depth_cm <- factor(
   data_aws$depth_cm,
@@ -252,7 +252,7 @@ data_aws$depth_cm <- factor(
 
 pred_df$sample_place <- factor(
   pred_df$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 pred_df$depth_cm <- factor(
   pred_df$depth_cm,
@@ -333,7 +333,7 @@ pred_soc <- pred_soc %>%
 # 2) Ensure correct factor order
 data_soc$sample_place <- factor(
   data_soc$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 data_soc$depth_cm <- factor(
   data_soc$depth_cm,
@@ -342,7 +342,7 @@ data_soc$depth_cm <- factor(
 
 pred_soc$sample_place <- factor(
   pred_soc$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 pred_soc$depth_cm <- factor(
   pred_soc$depth_cm,
@@ -428,12 +428,12 @@ pred_bs$sample_place <- factor(pred_bs$x, levels = levels(data_bs$sample_place))
 # ensure correct order in both datasets
 data_bs$sample_place <- factor(
   data_bs$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 
 pred_bs$sample_place <- factor(
   pred_bs$sample_place,
-  levels = c("Field", "Bed", "Edible forest", "Woodland")
+  levels = c("field", "bed", "edible forest", "woodland")
 )
 
 ## 8) Plot (WFC style) ----
