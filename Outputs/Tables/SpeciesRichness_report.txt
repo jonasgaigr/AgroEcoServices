@@ -1,0 +1,7 @@
+We fitted a linear model (estimated using ML) to predict species_richness with sample_place (formula: species_richness ~ sample_place). The model's explanatory power is substantial (R2 = 0.67). The model's intercept, corresponding to sample_place = Bed, is at 6.49 (95% CI [5.32, 7.66], t(28) = 10.87, p < .001). Within this model:
+
+  - The effect of sample place [Edible forest] is statistically non-significant and positive (beta = 1.38, 95% CI [-0.27, 3.04], t(28) = 1.64, p = 0.101; Std. beta = 0.50, 95% CI [-0.10, 1.09])
+  - The effect of sample place [Field] is statistically significant and negative (beta = -4.44, 95% CI [-6.10, -2.79], t(28) = -5.26, p < .001; Std. beta = -1.60, 95% CI [-2.19, -1.00])
+  - The effect of sample place [Woodland] is statistically significant and negative (beta = -2.43, 95% CI [-4.08, -0.77], t(28) = -2.87, p = 0.004; Std. beta = -0.87, 95% CI [-1.47, -0.28])
+
+Standardized parameters were obtained by fitting the model on a standardized version of the dataset. 95% Confidence Intervals (CIs) and p-values were computed using a Wald t-distribution approximation.
